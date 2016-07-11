@@ -34,17 +34,16 @@ class Graph(object):
             return "{} has no children.".format(node)
 
     def is_linked(self, prev, next, path=[]):
+        new_path = []
         path = path + [prev]
         if prev == next:
             print "Path: ", path
             return True
-        if prev not in self._graph:
-            return False
         for node in self._graph[prev]:
             if node not in path:
                 new_path = self.is_linked(node, next, path)
-                if new_path:
-                    return new_path
+        if new_path != []:
+            return new_path
         return False
 
     def __str__(self):
