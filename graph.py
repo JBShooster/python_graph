@@ -16,13 +16,16 @@ class Graph(object):
             self._graph[next].add(prev)
 
     def remove(self, prev, next):
-        self._graph[prev].remove(next)
-        if not self._directed:
-            self._graph[next].remove(prev)
-        if len(self._graph[prev]) == 0:
-            del self._graph[prev]
-        if len(self._graph[next]) == 0:
-            del self._graph[next]
+        try:
+            self._graph[prev].remove(next)
+            if not self._directed:
+                self._graph[next].remove(prev)
+            if len(self._graph[prev]) == 0:
+                del self._graph[prev]
+            if len(self._graph[next]) == 0:
+                del self._graph[next]
+        except KeyError:
+            return None
 
     def children(self, node):
         if len(self._graph[node]) > 0:
@@ -47,13 +50,3 @@ class Graph(object):
     def __str__(self):
         return 'Graph:({})'.format(dict(self._graph))
 
-connects = []
-my_graph = Graph(connects, directed=False)
-my_graph.add(1,2)
-my_graph.add(2,3)
-my_graph.add(3,4)
-print my_graph
-print my_graph.is_linked(3,1)
-my_graph.remove(3,4)
-print my_graph.is_linked(1,4)
-print my_graph
